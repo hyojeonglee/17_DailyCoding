@@ -6,7 +6,11 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 /*
- * error (1) '연결된 노드가 여러 개일 때 숫자가 가장 작은 노드부터 방문한다' 조건 고려 안함
+ * (1) '연결된 노드가 여러 개일 때 숫자가 가장 작은 노드부터 방문한다' 조건 고려 안함
+ * (2) '한 간선이 여러 번 주어질 수도 있는데, 간선이 하나만 있는 것으로 생각하면 된다' 조건 고려 안함
+ * (3) nextLine()이 \n까지 읽어버려서 엔터를 한 번 더 입력해야하는 문제 발생
+ * (4) 위 문제로 시간 많이 소요 but edge 입력 개수는 M개라고 문제에 명시되어 있었음
+ * (4) linkedlist[endV].add(startV); 추가해보았음
  */
 
 class TraversalSolver {
@@ -31,6 +35,7 @@ class TraversalSolver {
 				int startV = Integer.parseInt(vertexTemp[0]);
 				int endV = Integer.parseInt(vertexTemp[1]);
 				linkedlist[startV].add(endV);
+				linkedlist[endV].add(startV);
 			}
 		}
 		for(int i = 1 ; i < vertex+1 ; i++) {
