@@ -5,15 +5,13 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 class TraversalSolver {
-	int vertex;
-	int edge;
-	int[] visitedArray;
-	LinkedList<Integer>[] linkedlist;
+	private int vertex;
+	private int[] visitedArray;
+	private LinkedList<Integer>[] linkedlist;
 	
+	@SuppressWarnings("unchecked")
 	public TraversalSolver(int vertex, int edge, Scanner sc) {
 		this.vertex = vertex;
-		this.edge = edge;
-		
 		visitedArray = new int[vertex+1];
 		linkedlist = new LinkedList[vertex+1];
 		
@@ -21,60 +19,68 @@ class TraversalSolver {
 			visitedArray[i] = 0;
 			linkedlist[i] = new LinkedList<Integer>();
 		}
-		
 		for(int i = 0 ; i < edge ; i++) {
 			String edgeStr = sc.nextLine();
 			if(!edgeStr.isEmpty()) {
-				String[] temp = edgeStr.split(" ");
-				int startV = Integer.parseInt(temp[0]);
-				int endV = Integer.parseInt(temp[1]);
+				String[] vertexTemp = edgeStr.split(" ");
+				int startV = Integer.parseInt(vertexTemp[0]);
+				int endV = Integer.parseInt(vertexTemp[1]);
 				linkedlist[startV].add(endV);
 			}
 		}
 	}
 	
 	public void DFS_recursive(int vertex) {
-		visitedArray[vertex] = 1;
-		for(int i : linkedlist[vertex]) {
-			if(visitedArray[i] == 0) {
-				System.out.print(" "+i);
-				DFS_recursive(i);
+		markVisited(vertex);
+		for(int v : linkedlist[vertex]) {
+			if(!isVisited(v)) {
+				System.out.print(" "+v);
+				DFS_recursive(v);
 			}
 		}
 	}
 	
 	public void DFS_iterate() {
-		
+		// TODO
 	}
 	
 	public void BFS(int vertex) {
 		clearVisitedArray();
 		Queue<Integer> queue = new LinkedList<>();
 		queue.add(vertex);
-		visitedArray[vertex] = 1;
+		markVisited(vertex);
 		while(!queue.isEmpty()) {
 			int v = queue.remove();
 			for(int i : linkedlist[v]) {
-				if(visitedArray[i] == 0) {
+				if(!isVisited(i)) {
 					queue.add(i);
 					System.out.print(" "+i);
-					visitedArray[i] = 1;
+					markVisited(i);
 				}
 			}
 		}
 	}
 	
 	public void clearVisitedArray() {
-		for(int i = 1 ; i < vertex+1 ; i++) {
+		for(int i = 1 ; i < vertex+1 ; i++)
 			visitedArray[i] = 0;
-		}
+	}
+	
+	public boolean isVisited(int v) {
+		if(visitedArray[v] == 0)
+			return false;
+		return true;
+	}
+	
+	public void markVisited(int v) {
+		visitedArray[v] = 1;
 	}
 }
 
 public class DFSandBFS1260_1002 {
-
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
+		
 		String str = sc.nextLine();
 		String[] strArray = str.split(" ");
 		int vertex = Integer.parseInt(strArray[0]);
@@ -82,15 +88,10 @@ public class DFSandBFS1260_1002 {
 		int initV = Integer.parseInt(strArray[2]);
 		
 		TraversalSolver ts = new TraversalSolver(vertex, edge, sc);
-		
 		System.out.print(initV);
 		ts.DFS_recursive(initV);
-		
 		System.out.println();
-		
 		System.out.print(initV);
 		ts.BFS(initV);
-		
 	}
-
 }
