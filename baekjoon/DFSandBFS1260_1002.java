@@ -1,8 +1,13 @@
 package baekjoon;
 
 import java.util.Scanner;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Queue;
+
+/*
+ * error (1) '연결된 노드가 여러 개일 때 숫자가 가장 작은 노드부터 방문한다' 조건 고려 안함
+ */
 
 class TraversalSolver {
 	private int vertex;
@@ -27,6 +32,10 @@ class TraversalSolver {
 				int endV = Integer.parseInt(vertexTemp[1]);
 				linkedlist[startV].add(endV);
 			}
+		}
+		for(int i = 1 ; i < vertex+1 ; i++) {
+			if(!linkedlist[i].isEmpty())
+				Collections.sort(linkedlist[i]);
 		}
 	}
 	
